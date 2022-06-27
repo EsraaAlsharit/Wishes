@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+    <title>Wishes page</title>
+
+</head>
+
+<body>
+    <div class="container my-5">
+
+        <div class="head d-flex justify-content-between">
+            <h1>Hello {{ user.fname }}</h1>
+            <div class="action ">
+                <a href="/logout">Logout</a>
+                <a href="/view" class="btn btn-primary mx-2">View stats</a>
+                <a href="/addWish" class="btn btn-secondary ">Make a wish!</a>
+            </div>
+        </div>
+        {% if messages %}
+            {% for message in messages %}
+                <p {% if message.tags %} class="{{ message.tags }} text-success" {% endif %}>{{ message }}</p>
+            {% endfor %}
+        {% endif %}
+        <div class="wishes">
+            <div class="user-wishe">
+                <p>Your Wish list:</p>
+                <table class="table table-swisheed table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Item</th>
+                            <th>Date added</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for wish in wishes %}
+
+                        {% if wish.isGranted == 0 %}
+
+                        {%if user.id == wish.user.id %}
+                        <tr>
+                            <td>{{ wish.item }}</td>
+                            <td>{{ wish.date_add }}</td>
+                            <td>
+                                <a href="/remove/{{ wish.id }}">Remove</a> |
+                                <a href="/edit/{{ wish.id }}">Edit</a> |
+                                <a href="/grante/{{ wish.id }}">Granted!</a>
+
+                            </td>
+                        </tr>
+                        {%endif%}
+                        {%endif%}
+
+
+
+                        {%endfor%}
+                    </tbody>
+
+                </table>
+            </div>
+            <div class="other-wishes my-5">
+                <p class="text-info">Granted wishes:</p>
+                <table class="table table-swisheed table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Item</th>
+                            <th>Wisher</th>
+                            <th>Date added</th>
+                            <th>Date Granted</th>
+                            <th>Likes</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for wish in wishes %}
+                        <!-- user not in book.Favorite_by.all -->
+                        {% if wish.isGranted == 1 %}
+                        <tr>
+                            <td>{{ wish.item }}</td>
+                            <td>{{ wish.user.fname }}</td>
+                            <td>{{ wish.date_add }}</td>
+                            <td>{{ wish.grand_date }}</td>
+                            <td>
+
+
+                                {{ wish.likes.all.count }}
+
+
+
+                            </td>
+                            <td>
+                                {% if not user in wish.likes.all and user.id != wish.user.id %}
+
+                                <a href="/like/{{wish.id}}">Like</a>
+
+                                {%endif%}
+
+                            </td>
+                        </tr>
+                        {%endif%}
+                        {%endfor%}
+                    </tbody>
+
+                </table>
+            </div>
+        </div>
+
+    </div>
+</body>
+
+</html>

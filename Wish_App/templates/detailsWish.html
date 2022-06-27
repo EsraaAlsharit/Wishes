@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+    <title>Details wishes page</title>
+</head>
+
+<body>
+    <div class="container my-5">
+        <div class="head d-flex justify-content-between">
+            <h1>Hello {{ user.fname }} These are your stats!</h1>
+            <div class="action ">
+                <a href="/wishes" class="mx-5">Dashboard</a>
+                <a href="/logout">Logout</a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-6">
+                <div class="counters">
+
+                    <h5>Total wishes granted so far for all users: {{ usersWishes.count }}</h5>
+                    <p>Your granted wishes: {{yourWishesGrant.count }}</p>
+                    <p>Your pending wishes: {{yourWishesPend.count }}</p>
+                </div>
+            </div>
+
+        </div>
+
+
+    </div>
+</body>
+
+</html>
